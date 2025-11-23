@@ -219,8 +219,14 @@ Follow prompts and add environment variables.
    - Add the following variables (copy values from your `.env.local`):
      - `MONGODB_URI`
      - `JWT_SECRET`
-     - `GROQ_API_KEY`
+     - `JWT_EXPIRES_IN` (e.g., `7d`)
+     - `GEMINI_API_KEY` (or `GROQ_API_KEY` if you are using Groq, check your `.env.local`)
      - `NEXT_PUBLIC_APP_URL` (Set this to your Render URL, e.g., `https://focusflow-ai.onrender.com`)
+     - `SMTP_HOST` (Optional, for emails)
+     - `SMTP_PORT` (Optional, for emails)
+     - `SMTP_USER` (Optional, for emails)
+     - `SMTP_PASS` (Optional, for emails)
+     - `SMTP_FROM` (Optional, for emails)
    - Click "Save Changes"
 
 ---
