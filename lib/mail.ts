@@ -1,27 +1,19 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (email: string, code: string) => {
-    // If no SMTP credentials, log the code (for dev/demo)
-    if (!process.env.SMTP_USER || process.env.SMTP_USER.includes('your-email')) {
+    // If no API key, log the code (for dev/demo)
+    if (!process.env.RESEND_API_KEY) {
         console.log('====================================================');
         console.log(`[DEV] Verification Code for ${email}: ${code}`);
         console.log('====================================================');
-        return; // Don't attempt to send if no real credentials
+        return;
     }
 
     try {
-        const info = await transporter.sendMail({
-            from: `"FocusFlow AI" <${process.env.SMTP_FROM || 'focusflowai.noreply@gmail.com'}>`,
+        const { data, error } = await resend.emails.send({
+            from: 'FocusFlow AI <onboarding@resend.dev>',
             to: email,
             subject: 'Verify your email address',
             html: `
@@ -37,15 +29,14 @@ export const sendVerificationEmail = async (email: string, code: string) => {
             `,
         });
 
-        console.log('Message sent: %s', info.messageId);
-
-        // Preview only available when sending through an Ethereal account
-        if (nodemailer.getTestMessageUrl(info)) {
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        if (error) {
+            console.error('Error sending email:', error);
+            return;
         }
+
+        console.log('Message sent:', data?.id);
+
     } catch (error) {
         console.error('Error sending email:', error);
-        // Don't throw, just log. We don't want to crash the request if email fails in dev.
-        // In prod, you might want to handle this differently.
     }
 };
