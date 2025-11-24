@@ -17,8 +17,10 @@ import {
     ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 export default function SettingsPage() {
+    const { theme, setTheme } = useTheme();
     const [activeTab, setActiveTab] = useState('general');
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
@@ -44,6 +46,10 @@ export default function SettingsPage() {
             if (res.ok) {
                 const data = await res.json();
                 setUser(data.user);
+                // Sync theme from DB if available
+                if (data.user.preferences?.theme) {
+                    setTheme(data.user.preferences.theme);
+                }
             }
         } catch (error) {
             console.error('Failed to fetch user:', error);
@@ -54,6 +60,11 @@ export default function SettingsPage() {
     };
 
     const updatePreferences = async (newPrefs: any) => {
+        // If theme is being updated, update next-themes as well
+        if (newPrefs.theme) {
+            setTheme(newPrefs.theme);
+        }
+
         try {
             const res = await fetch('/api/user/settings', {
                 method: 'PUT',
@@ -261,7 +272,7 @@ export default function SettingsPage() {
                                         <h2 className="text-xl font-bold mb-4">Appearance</h2>
                                         <div className="flex items-center justify-between p-4 rounded-xl bg-white/5">
                                             <div className="flex items-center gap-3">
-                                                {user?.preferences?.theme === 'dark' ? (
+                                                {theme === 'dark' ? (
                                                     <MoonIcon className="w-6 h-6 text-purple-400" />
                                                 ) : (
                                                     <SunIcon className="w-6 h-6 text-yellow-400" />
@@ -269,15 +280,15 @@ export default function SettingsPage() {
                                                 <div>
                                                     <p className="font-medium">Theme Mode</p>
                                                     <p className="text-sm text-gray-400">
-                                                        Currently using {user?.preferences?.theme} mode
+                                                        Currently using {theme} mode
                                                     </p>
                                                 </div>
                                             </div>
                                             <button
-                                                onClick={() => updatePreferences({ theme: user?.preferences?.theme === 'dark' ? 'light' : 'dark' })}
+                                                onClick={() => updatePreferences({ theme: theme === 'dark' ? 'light' : 'dark' })}
                                                 className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
                                             >
-                                                Switch to {user?.preferences?.theme === 'dark' ? 'Light' : 'Dark'}
+                                                Switch to {theme === 'dark' ? 'Light' : 'Dark'}
                                             </button>
                                         </div>
                                     </div>

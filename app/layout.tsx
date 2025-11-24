@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -25,34 +26,41 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${inter.variable} ${poppins.variable} gradient-bg`}>
-                <AuthProvider>
-                    {children}
-                    <Toaster
-                        position="top-right"
-                        toastOptions={{
-                            duration: 3000,
-                            style: {
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                backdropFilter: 'blur(10px)',
-                                color: '#fff',
-                                border: '1px solid rgba(255, 255, 255, 0.2)',
-                                borderRadius: '12px',
-                            },
-                            success: {
-                                iconTheme: {
-                                    primary: '#00CEC9',
-                                    secondary: '#fff',
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <AuthProvider>
+                        {children}
+                        <Toaster
+                            position="top-right"
+                            toastOptions={{
+                                duration: 3000,
+                                style: {
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    backdropFilter: 'blur(10px)',
+                                    color: '#fff',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '12px',
                                 },
-                            },
-                            error: {
-                                iconTheme: {
-                                    primary: '#ff6b6b',
-                                    secondary: '#fff',
+                                success: {
+                                    iconTheme: {
+                                        primary: '#00CEC9',
+                                        secondary: '#fff',
+                                    },
                                 },
-                            },
-                        }}
-                    />
-                </AuthProvider>
+                                error: {
+                                    iconTheme: {
+                                        primary: '#ff6b6b',
+                                        secondary: '#fff',
+                                    },
+                                },
+                            }}
+                        />
+                    </AuthProvider>
+                </ThemeProvider>
             </body>
         </html>
     );
