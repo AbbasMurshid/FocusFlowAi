@@ -11,12 +11,19 @@ export default function RegisterPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [consent, setConsent] = useState(false);
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!consent) {
+            alert('You must agree to receive emails to create an account.');
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -112,6 +119,28 @@ export default function RegisterPage() {
                             <p className="text-xs text-gray-500 mt-2">
                                 Must be at least 6 characters
                             </p>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                            <div className="flex items-center h-5">
+                                <input
+                                    id="consent"
+                                    name="consent"
+                                    type="checkbox"
+                                    checked={consent}
+                                    onChange={(e) => setConsent(e.target.checked)}
+                                    className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-primary focus:ring-primary focus:ring-offset-gray-900"
+                                    required
+                                />
+                            </div>
+                            <div className="text-sm">
+                                <label htmlFor="consent" className="font-medium text-gray-300">
+                                    I agree to receive verification and account-related emails.
+                                </label>
+                                <p className="text-gray-500">
+                                    We need your permission to send you a verification code to activate your account.
+                                </p>
+                            </div>
                         </div>
 
                         <motion.button
