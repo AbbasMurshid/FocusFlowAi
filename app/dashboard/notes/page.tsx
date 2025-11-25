@@ -182,12 +182,12 @@ export default function NotesPage() {
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-bold font-heading mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
                         <span className="gradient-text">Notes</span>
                     </h1>
-                    <p className="text-gray-400">Capture your thoughts and ideas</p>
+                    <p className="text-gray-400 text-sm md:text-base">Capture your thoughts and ideas</p>
                 </div>
 
                 <motion.button
@@ -197,7 +197,7 @@ export default function NotesPage() {
                         resetForm();
                         setShowCreateModal(true);
                     }}
-                    className="btn-primary flex items-center gap-2"
+                    className="btn-primary w-full md:w-auto flex items-center justify-center gap-2 py-3"
                 >
                     <PlusIcon className="w-5 h-5" />
                     New Note
@@ -205,7 +205,7 @@ export default function NotesPage() {
             </div>
 
             {/* Search */}
-            <div className="glass-card p-4">
+            <div className="glass-card p-4 md:p-6">
                 <div className="relative">
                     <MagnifyingGlassIcon className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
@@ -213,23 +213,23 @@ export default function NotesPage() {
                         placeholder="Search notes..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-12"
+                        className="w-full pl-12 py-3"
                     />
                 </div>
             </div>
 
             {/* Notes Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <AnimatePresence mode="popLayout">
                     {filteredNotes.length === 0 ? (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="col-span-full glass-card p-12 text-center"
+                            className="col-span-full glass-card p-8 md:p-12 text-center"
                         >
-                            <DocumentTextIcon className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                            <h3 className="text-xl font-semibold mb-2">No notes yet</h3>
-                            <p className="text-gray-400 mb-6">Start capturing your ideas!</p>
+                            <DocumentTextIcon className="w-12 h-12 md:w-16 md:h-16 text-gray-500 mx-auto mb-4" />
+                            <h3 className="text-lg md:text-xl font-semibold mb-2">No notes yet</h3>
+                            <p className="text-gray-400 mb-6 text-sm md:text-base">Start capturing your ideas!</p>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -252,10 +252,10 @@ export default function NotesPage() {
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 whileHover={{ scale: 1.02 }}
                                 onClick={() => setSelectedNote(note)}
-                                className="glass-card p-6 card-hover cursor-pointer flex flex-col h-full"
+                                className="glass-card p-5 md:p-6 card-hover cursor-pointer flex flex-col h-full"
                             >
                                 <div className="flex items-start justify-between mb-3">
-                                    <h3 className="text-xl font-bold line-clamp-2 flex-1 pr-2">{note.title}</h3>
+                                    <h3 className="text-lg md:text-xl font-bold line-clamp-2 flex-1 pr-2">{note.title}</h3>
                                     <div className="flex gap-1">
                                         <button
                                             onClick={(e) => {
@@ -265,7 +265,7 @@ export default function NotesPage() {
                                             className="p-2 hover:bg-blue-500/10 rounded-lg transition-colors"
                                             title="Edit Note"
                                         >
-                                            <PencilIcon className="w-5 h-5 text-gray-400 hover:text-blue-400" />
+                                            <PencilIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-400 hover:text-blue-400" />
                                         </button>
                                         <button
                                             onClick={(e) => {
@@ -275,7 +275,7 @@ export default function NotesPage() {
                                             className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
                                             title="Delete Note"
                                         >
-                                            <TrashIcon className="w-5 h-5 text-gray-400 hover:text-red-400" />
+                                            <TrashIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-400 hover:text-red-400" />
                                         </button>
                                     </div>
                                 </div>
@@ -338,9 +338,9 @@ export default function NotesPage() {
                             className="fixed inset-0 z-50 flex items-center justify-center p-4"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="glass-card p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                    <DocumentTextIcon className="w-7 h-7 text-accent" />
+                            <div className="glass-card p-6 md:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                                <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2">
+                                    <DocumentTextIcon className="w-6 h-6 md:w-7 md:h-7 text-accent" />
                                     {editingNoteId ? 'Edit Note' : 'Create New Note'}
                                 </h2>
 
@@ -393,7 +393,7 @@ export default function NotesPage() {
                                             type="button"
                                             onClick={() => generateSummary(noteForm.content)}
                                             disabled={generatingSummary}
-                                            className="btn-secondary py-3 flex items-center gap-2 disabled:opacity-50"
+                                            className="btn-secondary py-3 flex items-center gap-2 disabled:opacity-50 w-full md:w-auto justify-center"
                                         >
                                             <SparklesIcon className="w-5 h-5" />
                                             {generatingSummary ? 'Generating...' : '✨ Generate AI Summary'}
@@ -422,7 +422,7 @@ export default function NotesPage() {
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
                                             type="submit"
-                                            className="flex-1 btn-primary py-4"
+                                            className="flex-1 btn-primary py-3 md:py-4"
                                         >
                                             {editingNoteId ? 'Update Note' : 'Create Note'}
                                         </motion.button>
@@ -432,7 +432,7 @@ export default function NotesPage() {
                                             whileTap={{ scale: 0.98 }}
                                             type="button"
                                             onClick={resetForm}
-                                            className="flex-1 btn-secondary py-4"
+                                            className="flex-1 btn-secondary py-3 md:py-4"
                                         >
                                             Cancel
                                         </motion.button>
@@ -463,26 +463,26 @@ export default function NotesPage() {
                             className="fixed inset-0 z-50 flex items-center justify-center p-4"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="glass-card p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                            <div className="glass-card p-6 md:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                                 <div className="flex justify-between items-start mb-4">
-                                    <h2 className="text-3xl font-bold">{selectedNote.title}</h2>
+                                    <h2 className="text-2xl md:text-3xl font-bold">{selectedNote.title}</h2>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => openEditModal(selectedNote)}
                                             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                                         >
-                                            <PencilIcon className="w-6 h-6" />
+                                            <PencilIcon className="w-5 h-5 md:w-6 md:h-6" />
                                         </button>
                                         <button
                                             onClick={() => handleDeleteNote(selectedNote._id)}
                                             className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
                                         >
-                                            <TrashIcon className="w-6 h-6 text-red-400" />
+                                            <TrashIcon className="w-5 h-5 md:w-6 md:h-6 text-red-400" />
                                         </button>
                                     </div>
                                 </div>
 
-                                <div className="text-gray-300 whitespace-pre-wrap mb-6 leading-relaxed">
+                                <div className="text-gray-300 whitespace-pre-wrap mb-6 leading-relaxed text-sm md:text-base">
                                     {selectedNote.content}
                                 </div>
 
