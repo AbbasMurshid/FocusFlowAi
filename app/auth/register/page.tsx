@@ -135,7 +135,7 @@ export default function RegisterPage() {
                             </div>
                             <div className="text-sm">
                                 <label htmlFor="consent" className="font-medium text-gray-300">
-                                    I agree to receive verification and account-related emails.
+                                    I agree to receive verification and account-related emails and accept the <Link href="/terms" className="text-primary hover:underline">Terms and Conditions</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
                                 </label>
                                 <p className="text-gray-500">
                                     We need your permission to send you a verification code to activate your account.
