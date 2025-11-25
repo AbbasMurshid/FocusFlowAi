@@ -201,29 +201,29 @@ export default function SettingsPage() {
     return (
         <div className="max-w-4xl mx-auto space-y-8">
             <div>
-                <h1 className="text-4xl font-bold font-heading mb-2">
+                <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
                     <span className="gradient-text">Settings</span>
                 </h1>
-                <p className="text-gray-400">Manage your preferences and account</p>
+                <p className="text-gray-400 text-sm md:text-base">Manage your preferences and account</p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                 {/* Sidebar Navigation */}
                 <div className="w-full md:w-64 flex-shrink-0">
-                    <div className="glass-card p-2 space-y-1">
+                    <div className="glass-card p-2 space-y-1 flex flex-row md:flex-col overflow-x-auto md:overflow-visible no-scrollbar">
                         {tabs.map((tab) => {
                             const Icon = tab.icon;
                             return (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === tab.id
+                                    className={`flex-shrink-0 md:w-full flex items-center gap-2 md:gap-3 px-4 py-2 md:py-3 rounded-lg transition-all whitespace-nowrap ${activeTab === tab.id
                                         ? 'bg-primary/20 text-primary border border-primary/20'
                                         : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                         }`}
                                 >
                                     <Icon className="w-5 h-5" />
-                                    <span className="font-medium">{tab.label}</span>
+                                    <span className="font-medium text-sm md:text-base">{tab.label}</span>
                                 </button>
                             );
                         })}
@@ -243,9 +243,9 @@ export default function SettingsPage() {
                         >
                             {/* GENERAL TAB */}
                             {activeTab === 'general' && (
-                                <div className="glass-card p-8 space-y-8">
+                                <div className="glass-card p-5 md:p-8 space-y-6 md:space-y-8">
                                     <div>
-                                        <h2 className="text-xl font-bold mb-4">Profile Information</h2>
+                                        <h2 className="text-lg md:text-xl font-bold mb-4">Profile Information</h2>
                                         <div className="space-y-4">
                                             <div>
                                                 <label className="block text-sm text-gray-400 mb-1">Name</label>
@@ -268,9 +268,9 @@ export default function SettingsPage() {
                                         </div>
                                     </div>
 
-                                    <div className="border-t border-white/10 pt-8">
-                                        <h2 className="text-xl font-bold mb-4">Appearance</h2>
-                                        <div className="flex items-center justify-between p-4 rounded-xl bg-white/5">
+                                    <div className="border-t border-white/10 pt-6 md:pt-8">
+                                        <h2 className="text-lg md:text-xl font-bold mb-4">Appearance</h2>
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-white/5 gap-4">
                                             <div className="flex items-center gap-3">
                                                 {theme === 'dark' ? (
                                                     <MoonIcon className="w-6 h-6 text-purple-400" />
@@ -286,7 +286,7 @@ export default function SettingsPage() {
                                             </div>
                                             <button
                                                 onClick={() => updatePreferences({ theme: theme === 'dark' ? 'light' : 'dark' })}
-                                                className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                                                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-sm"
                                             >
                                                 Switch to {theme === 'dark' ? 'Light' : 'Dark'}
                                             </button>
@@ -297,9 +297,9 @@ export default function SettingsPage() {
 
                             {/* FOCUS TAB */}
                             {activeTab === 'focus' && (
-                                <div className="glass-card p-8 space-y-8">
+                                <div className="glass-card p-5 md:p-8 space-y-6 md:space-y-8">
                                     <div>
-                                        <h2 className="text-xl font-bold mb-6">Timer Settings</h2>
+                                        <h2 className="text-lg md:text-xl font-bold mb-6">Timer Settings</h2>
 
                                         <div className="space-y-6">
                                             <div>
@@ -342,18 +342,18 @@ export default function SettingsPage() {
 
                             {/* SECURITY TAB */}
                             {activeTab === 'security' && (
-                                <div className="glass-card p-8 space-y-8">
+                                <div className="glass-card p-5 md:p-8 space-y-6 md:space-y-8">
                                     {/* MFA Section */}
                                     <div>
-                                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
                                             <ShieldCheckIcon className="w-6 h-6 text-primary" />
                                             Two-Factor Authentication
                                         </h2>
 
                                         {user?.mfaEnabled ? (
-                                            <div className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 border border-green-500/20">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-green-500/10 border border-green-500/20 gap-4">
                                                 <div className="flex items-center gap-3">
-                                                    <CheckBadgeIcon className="w-6 h-6 text-green-500" />
+                                                    <CheckBadgeIcon className="w-6 h-6 text-green-500 flex-shrink-0" />
                                                     <div>
                                                         <p className="font-bold text-green-500">MFA is Enabled</p>
                                                         <p className="text-sm text-gray-400">Your account is secured with two-factor authentication.</p>
@@ -361,26 +361,26 @@ export default function SettingsPage() {
                                                 </div>
                                                 <button
                                                     onClick={() => setShowDisableMfaConfirm(true)}
-                                                    className="px-4 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-sm font-medium"
+                                                    className="w-full sm:w-auto px-4 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-sm font-medium"
                                                 >
                                                     Disable
                                                 </button>
                                             </div>
                                         ) : (
                                             <div className="space-y-4">
-                                                <p className="text-gray-400">Add an extra layer of security to your account.</p>
+                                                <p className="text-gray-400 text-sm md:text-base">Add an extra layer of security to your account.</p>
                                                 {!showMfaSetup ? (
                                                     <button
                                                         onClick={handleMfaSetup}
-                                                        className="btn-primary flex items-center gap-2"
+                                                        className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center"
                                                     >
                                                         <QrCodeIcon className="w-5 h-5" />
                                                         Setup MFA
                                                     </button>
                                                 ) : (
-                                                    <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-6">
+                                                    <div className="p-4 md:p-6 rounded-xl bg-white/5 border border-white/10 space-y-6">
                                                         <div className="text-center">
-                                                            <p className="mb-4 font-medium">Scan this QR Code with your authenticator app</p>
+                                                            <p className="mb-4 font-medium text-sm md:text-base">Scan this QR Code with your authenticator app</p>
                                                             {mfaSetup?.qrCodeUrl && (
                                                                 <div className="bg-white p-2 rounded-lg inline-block">
                                                                     <Image
@@ -391,14 +391,14 @@ export default function SettingsPage() {
                                                                     />
                                                                 </div>
                                                             )}
-                                                            <p className="mt-4 text-sm text-gray-400 font-mono bg-black/30 p-2 rounded">
+                                                            <p className="mt-4 text-xs md:text-sm text-gray-400 font-mono bg-black/30 p-2 rounded break-all">
                                                                 Secret: {mfaSetup?.secret}
                                                             </p>
                                                         </div>
 
                                                         <div className="space-y-2">
                                                             <label className="text-sm">Enter 6-digit code</label>
-                                                            <div className="flex gap-2">
+                                                            <div className="flex flex-col sm:flex-row gap-2">
                                                                 <input
                                                                     type="text"
                                                                     value={mfaToken}
@@ -409,7 +409,7 @@ export default function SettingsPage() {
                                                                 />
                                                                 <button
                                                                     onClick={verifyMfa}
-                                                                    className="btn-primary"
+                                                                    className="btn-primary w-full sm:w-auto"
                                                                 >
                                                                     Verify
                                                                 </button>
@@ -422,20 +422,20 @@ export default function SettingsPage() {
                                     </div>
 
                                     {/* Delete Account Section */}
-                                    <div className="border-t border-white/10 pt-8">
-                                        <h2 className="text-xl font-bold mb-4 text-red-500 flex items-center gap-2">
+                                    <div className="border-t border-white/10 pt-6 md:pt-8">
+                                        <h2 className="text-lg md:text-xl font-bold mb-4 text-red-500 flex items-center gap-2">
                                             <ExclamationTriangleIcon className="w-6 h-6" />
                                             Danger Zone
                                         </h2>
 
-                                        <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/20 flex items-center justify-between">
+                                        <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                             <div>
                                                 <p className="font-bold text-red-400">Delete Account</p>
                                                 <p className="text-sm text-gray-400">Permanently remove your account and all data.</p>
                                             </div>
                                             <button
                                                 onClick={() => setShowDeleteConfirm(true)}
-                                                className="px-4 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"
+                                                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"
                                             >
                                                 Delete Account
                                             </button>
@@ -446,9 +446,9 @@ export default function SettingsPage() {
 
                             {/* DATA TAB */}
                             {activeTab === 'data' && (
-                                <div className="glass-card p-8 space-y-8">
+                                <div className="glass-card p-5 md:p-8 space-y-6 md:space-y-8">
                                     <div>
-                                        <h2 className="text-xl font-bold mb-4">Data Management</h2>
+                                        <h2 className="text-lg md:text-xl font-bold mb-4">Data Management</h2>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-primary/50 transition-colors">
@@ -493,12 +493,12 @@ export default function SettingsPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-[#0f1115] border border-white/10 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                        className="bg-[#0f1115] border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl"
                     >
-                        <h3 className="text-2xl font-bold mb-4 text-red-500">
+                        <h3 className="text-xl md:text-2xl font-bold mb-4 text-red-500">
                             {showDeleteConfirm ? 'Delete Account?' : showResetConfirm ? 'Reset Account Data?' : 'Disable MFA?'}
                         </h3>
-                        <p className="text-gray-400 mb-6">
+                        <p className="text-gray-400 mb-6 text-sm md:text-base">
                             {showDeleteConfirm
                                 ? 'This action cannot be undone. This will permanently delete your account and remove all your data from our servers.'
                                 : showResetConfirm
@@ -531,7 +531,7 @@ export default function SettingsPage() {
                                         setShowDisableMfaConfirm(false);
                                         setConfirmInput('');
                                     }}
-                                    className="px-4 py-2 rounded-lg hover:bg-white/10"
+                                    className="px-4 py-2 rounded-lg hover:bg-white/10 text-sm md:text-base"
                                 >
                                     Cancel
                                 </button>
@@ -542,7 +542,7 @@ export default function SettingsPage() {
                                                 handleDisableMfa
                                     }
                                     disabled={(showDeleteConfirm || showResetConfirm) && confirmInput !== (showDeleteConfirm ? 'DELETE' : 'RESET')}
-                                    className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white"
+                                    className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm md:text-base"
                                 >
                                     Confirm {showDeleteConfirm ? 'Delete' : showResetConfirm ? 'Reset' : 'Disable'}
                                 </button>
