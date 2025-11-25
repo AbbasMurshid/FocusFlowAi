@@ -139,12 +139,12 @@ export default function FocusPage() {
 
             {/* Main Timer Card */}
             <div className="max-w-2xl mx-auto">
-                <div className="glass-card p-12 text-center relative overflow-hidden">
+                <div className="glass-card p-6 md:p-12 text-center relative overflow-hidden">
                     {/* Background gradient effect */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${config.color} opacity-5 pointer-events-none`}></div>
 
                     {/* Timer Type Selector */}
-                    <div className="flex justify-center gap-3 mb-8 relative z-10">
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-8 relative z-10">
                         {(['focus', 'short-break', 'long-break'] as const).map((type) => (
                             <motion.button
                                 key={type}
@@ -152,7 +152,7 @@ export default function FocusPage() {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => switchTimer(type)}
                                 disabled={isRunning}
-                                className={`px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${timerType === type
+                                className={`px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium transition-all text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed ${timerType === type
                                     ? 'bg-gradient-to-r from-primary to-accent text-white'
                                     : 'bg-white/5 hover:bg-white/10'
                                     }`}
@@ -163,29 +163,30 @@ export default function FocusPage() {
                     </div>
 
                     {/* Circular Progress */}
-                    <div className="relative w-80 h-80 mx-auto mb-8">
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 mx-auto mb-6 md:mb-8">
                         {/* Background Circle */}
                         <svg className="w-full h-full transform -rotate-90">
                             <circle
-                                cx="160"
-                                cy="160"
-                                r="140"
+                                cx="50%"
+                                cy="50%"
+                                r="45%"
                                 stroke="rgba(255,255,255,0.1)"
-                                strokeWidth="16"
+                                strokeWidth="8%"
                                 fill="none"
                             />
                             {/* Progress Circle */}
                             <circle
-                                cx="160"
-                                cy="160"
-                                r="140"
+                                cx="50%"
+                                cy="50%"
+                                r="45%"
                                 stroke="url(#gradient)"
-                                strokeWidth="16"
+                                strokeWidth="8%"
                                 fill="none"
                                 strokeLinecap="round"
-                                strokeDasharray={2 * Math.PI * 140}
-                                strokeDashoffset={2 * Math.PI * 140 * (1 - progress / 100)}
+                                strokeDasharray={`${2 * Math.PI * 45}%`}
+                                strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}%`}
                                 className="transition-all duration-1000"
+                                style={{ strokeDasharray: '283%', strokeDashoffset: `${283 * (1 - progress / 100)}%` }}
                             />
                             <defs>
                                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -197,11 +198,11 @@ export default function FocusPage() {
 
                         {/* Timer Display */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <TimerIcon className="w-12 h-12 mb-4 text-gray-400" />
-                            <div className="text-7xl font-bold font-mono gradient-text">
+                            <TimerIcon className="w-8 h-8 md:w-12 md:h-12 mb-2 md:mb-4 text-gray-400" />
+                            <div className="text-5xl md:text-7xl font-bold font-mono gradient-text">
                                 {formatTime(timeLeft)}
                             </div>
-                            <p className="text-gray-400 mt-4 text-lg">{config.label}</p>
+                            <p className="text-gray-400 mt-2 md:mt-4 text-base md:text-lg">{config.label}</p>
                         </div>
                     </div>
 
@@ -211,12 +212,12 @@ export default function FocusPage() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={toggleTimer}
-                            className={`w-16 h-16 rounded-full bg-gradient-to-r ${config.color} flex items-center justify-center shadow-lg`}
+                            className={`w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r ${config.color} flex items-center justify-center shadow-lg`}
                         >
                             {isRunning ? (
-                                <PauseIcon className="w-8 h-8 text-white" />
+                                <PauseIcon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                             ) : (
-                                <PlayIcon className="w-8 h-8 text-white ml-1" />
+                                <PlayIcon className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" />
                             )}
                         </motion.button>
 
@@ -224,27 +225,27 @@ export default function FocusPage() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={resetTimer}
-                            className="w-16 h-16 rounded-full glass-card flex items-center justify-center"
+                            className="w-14 h-14 md:w-16 md:h-16 rounded-full glass-card flex items-center justify-center"
                         >
-                            <ArrowPathIcon className="w-7 h-7 text-gray-300" />
+                            <ArrowPathIcon className="w-6 h-6 md:w-7 md:h-7 text-gray-300" />
                         </motion.button>
                     </div>
                 </div>
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4 mt-6">
-                    <div className="glass-card p-6 text-center">
-                        <FireIcon className="w-10 h-10 text-orange-400 mx-auto mb-3" />
-                        <div className="text-3xl font-bold mb-1">{completedSessions}</div>
-                        <div className="text-gray-400 text-sm">Completed Sessions</div>
+                    <div className="glass-card p-4 md:p-6 text-center">
+                        <FireIcon className="w-8 h-8 md:w-10 md:h-10 text-orange-400 mx-auto mb-2 md:mb-3" />
+                        <div className="text-2xl md:text-3xl font-bold mb-1">{completedSessions}</div>
+                        <div className="text-gray-400 text-xs md:text-sm">Completed Sessions</div>
                     </div>
 
-                    <div className="glass-card p-6 text-center">
-                        <ClockIcon className="w-10 h-10 text-blue-400 mx-auto mb-3" />
-                        <div className="text-3xl font-bold mb-1">
+                    <div className="glass-card p-4 md:p-6 text-center">
+                        <ClockIcon className="w-8 h-8 md:w-10 md:h-10 text-blue-400 mx-auto mb-2 md:mb-3" />
+                        <div className="text-2xl md:text-3xl font-bold mb-1">
                             {Math.floor((completedSessions * 25) / 60)}h {(completedSessions * 25) % 60}m
                         </div>
-                        <div className="text-gray-400 text-sm">Total Focus Time</div>
+                        <div className="text-gray-400 text-xs md:text-sm">Total Focus Time</div>
                     </div>
                 </div>
             </div>
