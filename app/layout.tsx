@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     title: 'FocusFlow AI - AI-Powered Productivity Platform',
     description: 'Boost your productivity with AI-powered task planning, smart scheduling, and focus tracking',
     keywords: 'productivity, AI, task management, focus, Pomodoro, goal tracking',
-    viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
+};
+
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
     themeColor: '#6C5CE7',
-    appleWebApp: {
-        capable: true,
-        statusBarStyle: 'black-translucent',
-        title: 'FocusFlow AI',
-    },
 };
 
 export default function RootLayout({
