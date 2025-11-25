@@ -152,14 +152,14 @@ export default function AnalyticsPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-4xl font-bold font-heading mb-2">
+                <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
                     <span className="gradient-text">Analytics</span>
                 </h1>
-                <p className="text-gray-400">Track your productivity insights</p>
+                <p className="text-gray-400 text-sm md:text-base">Track your productivity insights</p>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {statCards.map((stat, index) => {
                     const Icon = stat.icon;
                     return (
@@ -169,13 +169,13 @@ export default function AnalyticsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             whileHover={{ scale: 1.05 }}
-                            className="glass-card p-6 card-hover"
+                            className="glass-card p-5 md:p-6 card-hover"
                         >
-                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
-                                <Icon className="w-6 h-6 text-white" />
+                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
+                                <Icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                             </div>
-                            <h3 className="text-sm text-gray-400 mb-1">{stat.title}</h3>
-                            <p className="text-3xl font-bold mb-1">{stat.value}</p>
+                            <h3 className="text-xs md:text-sm text-gray-400 mb-1">{stat.title}</h3>
+                            <p className="text-2xl md:text-3xl font-bold mb-1">{stat.value}</p>
                             <p className="text-xs text-gray-500">{stat.description}</p>
                         </motion.div>
                     );
@@ -187,18 +187,18 @@ export default function AnalyticsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="glass-card p-8 bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20"
+                className="glass-card p-6 md:p-8 bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20"
             >
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold flex items-center gap-2">
-                        <FireIcon className="w-7 h-7 text-orange-400" />
+                    <h2 className="text-xl md:text-2xl font-bold flex items-center gap-2">
+                        <FireIcon className="w-6 h-6 md:w-7 md:h-7 text-orange-400" />
                         Streak Tracker
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     <div className="text-center p-6 rounded-xl bg-white/5">
-                        <div className="text-5xl font-bold text-orange-400 mb-2">
+                        <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">
                             {stats.currentStreak} 🔥
                         </div>
                         <p className="text-gray-400 text-sm">Current Streak</p>
@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
                     </div>
 
                     <div className="text-center p-6 rounded-xl bg-white/5">
-                        <div className="text-5xl font-bold text-yellow-400 mb-2">
+                        <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">
                             {stats.longestStreak} 🏆
                         </div>
                         <p className="text-gray-400 text-sm">Longest Streak</p>
@@ -231,14 +231,14 @@ export default function AnalyticsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="glass-card p-8"
+                className="glass-card p-6 md:p-8"
             >
-                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                    <CalendarIcon className="w-7 h-7 text-primary" />
+                <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2">
+                    <CalendarIcon className="w-6 h-6 md:w-7 md:h-7 text-primary" />
                     Weekly Activity
                 </h2>
 
-                <div className="relative h-64 mb-8">
+                <div className="relative h-48 md:h-64 mb-8">
                     {(() => {
                         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                         const today = new Date();
@@ -321,12 +321,12 @@ export default function AnalyticsPage() {
                                     {last7Days.map((day, idx) => (
                                         <div key={day} className="flex-1 flex flex-col items-center gap-2 relative group pointer-events-auto">
                                             <div className="h-full flex items-center">
-                                                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/90 px-3 py-2 rounded-lg text-xs whitespace-nowrap absolute bottom-full mb-2">
+                                                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/90 px-3 py-2 rounded-lg text-xs whitespace-nowrap absolute bottom-full mb-2 z-10">
                                                     <p className="font-semibold text-primary">{day}</p>
                                                     <p className="text-white">{stats.weeklyTasks[idx]} tasks</p>
                                                 </div>
                                             </div>
-                                            <span className="text-sm text-gray-400 font-medium">{day}</span>
+                                            <span className="text-[10px] md:text-sm text-gray-400 font-medium">{day}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -341,29 +341,29 @@ export default function AnalyticsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="glass-card p-8"
+                className="glass-card p-6 md:p-8"
             >
-                <h2 className="text-2xl font-bold mb-6">📊 Productivity Insights</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-6">📊 Productivity Insights</h2>
 
                 <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 rounded-xl bg-white/5">
                         <div>
-                            <h4 className="font-semibold mb-1">Average Focus Session</h4>
-                            <p className="text-gray-400 text-sm">
+                            <h4 className="font-semibold mb-1 text-sm md:text-base">Average Focus Session</h4>
+                            <p className="text-gray-400 text-xs md:text-sm">
                                 {stats.focusSessions > 0
                                     ? formatTime(Math.round(stats.totalFocusTime / stats.focusSessions))
                                     : '0m'} per session
                             </p>
                         </div>
-                        <div className="text-3xl">⏰</div>
+                        <div className="text-2xl md:text-3xl">⏰</div>
                     </div>
 
                     <div className="flex items-center justify-between p-4 rounded-xl bg-white/5">
                         <div>
-                            <h4 className="font-semibold mb-1">Total Notes Created</h4>
-                            <p className="text-gray-400 text-sm">{stats.totalNotes} notes captured</p>
+                            <h4 className="font-semibold mb-1 text-sm md:text-base">Total Notes Created</h4>
+                            <p className="text-gray-400 text-xs md:text-sm">{stats.totalNotes} notes captured</p>
                         </div>
-                        <div className="text-3xl">📝</div>
+                        <div className="text-2xl md:text-3xl">📝</div>
                     </div>
                 </div>
             </motion.div>
@@ -373,9 +373,9 @@ export default function AnalyticsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="glass-card p-8 text-center gradient-border"
+                className="glass-card p-6 md:p-8 text-center gradient-border"
             >
-                <h3 className="text-2xl font-bold mb-3 gradient-text">
+                <h3 className="text-xl md:text-2xl font-bold mb-3 gradient-text">
                     {stats.completionRate >= 80
                         ? "🌟 Outstanding Performance!"
                         : stats.completionRate >= 50
@@ -383,7 +383,7 @@ export default function AnalyticsPage() {
                             : "🚀 Let's Boost Your Productivity!"
                     }
                 </h3>
-                <p className="text-gray-400">
+                <p className="text-gray-400 text-sm md:text-base">
                     {stats.completionRate >= 80
                         ? "You're crushing your goals! Your dedication is inspiring."
                         : stats.completionRate >= 50
