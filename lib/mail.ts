@@ -12,7 +12,7 @@ export const sendVerificationEmail = async (email: string, code: string) => {
 
     try {
         const { data, error } = await resend.emails.send({
-            from: 'FocusFlow AI <onboarding@resend.dev>', // Update this to your verified domain when ready
+            from: 'FocusFlow AI <noreply@focusflownor.work.gd>',
             to: email,
             subject: 'Verify your email address',
             html: `
