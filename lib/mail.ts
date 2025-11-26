@@ -1,16 +1,23 @@
 import { Resend } from 'resend';
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
+// Lazy initialization to avoid build-time errors
+let resendClient: Resend | null = null;
 
-const resend = new Resend(RESEND_API_KEY);
+const getResendClient = () => {
+    if (!resendClient) {
+        const RESEND_API_KEY = process.env.RESEND_API_KEY;
+        if (!RESEND_API_KEY) {
+            throw new Error('RESEND_API_KEY is not defined');
+        }
+        resendClient = new Resend(RESEND_API_KEY);
+    }
+    return resendClient;
+};
 
 export const sendVerificationEmail = async (email: string, code: string) => {
-    if (!RESEND_API_KEY) {
-        console.error('RESEND_API_KEY is not defined');
-        return;
-    }
-
     try {
+        const resend = getResendClient();
+
         const { data, error } = await resend.emails.send({
             from: 'FocusFlow AI <noreply@focusflownor.work.gd>',
             to: email,
@@ -30,25 +37,24 @@ export const sendVerificationEmail = async (email: string, code: string) => {
 
         if (error) {
             console.error('Error sending email:', error);
-            return;
+            throw new Error('Failed to send verification email');
         }
 
         console.log('Message sent:', data?.id);
+        return data;
 
     } catch (error: any) {
         console.error('Error sending email:', error.message);
+        throw error;
     }
 };
 
 export const sendPasswordResetEmail = async (email: string, resetToken: string) => {
-    if (!RESEND_API_KEY) {
-        console.error('RESEND_API_KEY is not defined');
-        throw new Error('Email service not configured');
-    }
-
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/reset-password/${resetToken}`;
 
     try {
+        const resend = getResendClient();
+
         const { data, error } = await resend.emails.send({
             from: 'FocusFlow AI <noreply@focusflownor.work.gd>',
             to: email,
