@@ -55,11 +55,11 @@ export default function CreateHabitModal({ isOpen, onClose, onCreate }: CreateHa
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg z-50"
+                        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg z-50 max-h-[90vh] overflow-y-auto"
                     >
-                        <div className="glass-card p-8 m-4">
+                        <div className="glass-card p-6 md:p-8 m-4">
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-2xl font-bold">Create New Habit</h2>
+                                <h2 className="text-xl md:text-2xl font-bold">Create New Habit</h2>
                                 <button
                                     onClick={onClose}
                                     className="p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -68,7 +68,7 @@ export default function CreateHabitModal({ isOpen, onClose, onCreate }: CreateHa
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-2">
                                         Habit Title
@@ -96,7 +96,7 @@ export default function CreateHabitModal({ isOpen, onClose, onCreate }: CreateHa
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-2">
                                             Frequency
@@ -141,18 +141,18 @@ export default function CreateHabitModal({ isOpen, onClose, onCreate }: CreateHa
                                     />
                                 </div>
 
-                                <div className="flex justify-end gap-3 pt-4">
+                                <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
                                     <button
                                         type="button"
                                         onClick={onClose}
-                                        className="btn-secondary"
+                                        className="btn-secondary w-full sm:w-auto"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="btn-primary flex items-center gap-2"
+                                        className="btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
                                     >
                                         {loading ? (
                                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
