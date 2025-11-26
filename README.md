@@ -2,6 +2,12 @@
 
 A comprehensive productivity web application powered by AI (Google Gemini API with gemini-1.5-flash) to help you manage tasks, track focus sessions, set goals, and boost your productivity.
 
+## 🌐 Live Demo
+
+**Try it now:** [https://focusflowai-quo0.onrender.com](https://focusflowai-quo0.onrender.com)
+
+> **Note:** The app is hosted on Render's free tier, which spins down after 15 minutes of inactivity. First load may take 30-60 seconds. Please be patient!
+
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
