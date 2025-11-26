@@ -174,38 +174,171 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🚀 Deployment
 
-### Deploy to Vercel (Recommended)
+### Deploy to Vercel (Recommended - Free Tier Available)
 
-1. **Push to GitHub**
+Vercel is the best platform for Next.js applications with automatic deployments and excellent performance.
+
+#### Prerequisites
+- GitHub account with your code pushed
+- Vercel account (sign up at [vercel.com](https://vercel.com))
+- All required API keys ready (MongoDB, Gemini, Resend)
+
+#### Step-by-Step Deployment
+
+1. **Prepare Your Repository**
+   
+   Your code should already be on GitHub. If not:
    ```bash
-   git init
    git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin YOUR_GITHUB_REPO_URL
-   git push -u origin main
+   git commit -m "Ready for deployment"
+   git push origin main
    ```
 
-2. **Deploy on Vercel**
-   - Go to [Vercel](https://vercel.com)
-   - Import your GitHub repository
-   - Add environment variables from `.env.local`
-   - Deploy!
+2. **Import Project to Vercel**
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "Add New" → "Project"
+   - Click "Import" next to your `FocusFlowAi` repository
+   - If not connected, authorize Vercel to access your GitHub account
 
-3. **Configure Environment Variables in Vercel**
-   - Go to Project Settings → Environment Variables
-   - Add all variables from `.env.local`
-   - Redeploy if needed
+3. **Configure Project Settings**
+   - **Framework Preset**: Next.js (auto-detected)
+   - **Root Directory**: `./` (leave as default)
+   - **Build Command**: `npm run build` (auto-detected)
+   - **Output Directory**: `.next` (auto-detected)
+   - Click "Deploy" (it will fail first time - that's okay!)
 
-### Alternative: Deploy Backend to Render
+4. **Add Environment Variables**
+   
+   After first deployment fails, go to:
+   - Project Settings → Environment Variables
+   - Add each variable from your `.env.local` file:
 
-If you want to separate backend:
+   | Variable Name | Value | Notes |
+   |---------------|-------|-------|
+   | `MONGODB_URI` | Your MongoDB connection string | From MongoDB Atlas |
+   | `JWT_SECRET` | Your JWT secret key | Use a strong random string (32+ chars) |
+   | `JWT_EXPIRES_IN` | `7d` | Token expiration time |
+   | `GEMINI_API_KEY` | Your Gemini API key | From Google AI Studio |
+   | `RESEND_API_KEY` | Your Resend API key | From Resend dashboard |
+   | `NEXT_PUBLIC_APP_URL` | Your Vercel domain | e.g., `https://yourapp.vercel.app` |
 
-1. Create account on [Render](https://render.com)
-2. Create new Web Service
-3. Connect GitHub repository
-4. Add environment variables
-5. Deploy
+   **Important**: 
+   - Make sure to add variables to **Production**, **Preview**, and **Development** environments
+   - Click "Save" after adding all variables
+
+5. **Redeploy**
+   - Go to "Deployments" tab
+   - Click the three dots (...) on the latest deployment
+   - Click "Redeploy"
+   - Wait for deployment to complete (~2-3 minutes)
+
+6. **Verify Deployment**
+   - Visit your Vercel URL (e.g., `https://yourapp.vercel.app`)
+   - Test signup/login functionality
+   - Verify email verification works
+   - Create a test task, note, or habit
+
+7. **Custom Domain (Optional)**
+   - Go to Project Settings → Domains
+   - Add your custom domain
+   - Follow DNS configuration instructions
+   - Wait for DNS propagation (~24 hours)
+
+#### Automatic Deployments
+
+Every push to your `main` branch will automatically trigger a new deployment on Vercel!
+
+---
+
+### Alternative: Deploy to Render (Free Tier Available)
+
+Render is a good alternative if you prefer a different platform or need more control.
+
+#### Step-by-Step for Render
+
+1. **Create Render Account**
+   - Go to [Render.com](https://render.com)
+   - Sign up with GitHub
+
+2. **Create New Web Service**
+   - Click "New" → "Web Service"
+   - Connect your GitHub repository
+   - Select `FocusFlowAi` repository
+
+3. **Configure Service**
+   - **Name**: `focusflow-ai` (or your choice)
+   - **Environment**: `Node`
+   - **Region**: Choose closest to your users
+   - **Branch**: `main`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+   - **Instance Type**: Free
+
+4. **Add Environment Variables**
+   
+   In the "Environment" section, add:
+   ```
+   MONGODB_URI=mongodb+srv://...
+   JWT_SECRET=your_jwt_secret
+   JWT_EXPIRES_IN=7d
+   GEMINI_API_KEY=your_gemini_key
+   RESEND_API_KEY=re_your_resend_key
+   NEXT_PUBLIC_APP_URL=https://your-app.onrender.com
+   ```
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - Wait for build and deployment (~5-10 minutes)
+   - Render will provide your app URL
+
+6. **Update App URL**
+   - Copy your Render URL (e.g., `https://focusflow-ai.onrender.com`)
+   - Update `NEXT_PUBLIC_APP_URL` in environment variables
+   - Trigger manual redeploy
+
+#### Important Notes for Render
+- Free tier spins down after 15 minutes of inactivity
+- First request after spin-down takes 30-60 seconds
+- Consider upgrading to paid tier for production use
+
+---
+
+### Post-Deployment Checklist
+
+After deploying to either platform:
+
+- [ ] Test user registration with email verification
+- [ ] Test login/logout functionality
+- [ ] Verify email delivery (check spam folder)
+- [ ] Test password reset flow
+- [ ] Create test data (tasks, notes, goals, habits)
+- [ ] Test AI features (task assistant, schedule, coach)
+- [ ] Verify analytics dashboard loads
+- [ ] Test MFA setup (if enabled)
+- [ ] Check mobile responsiveness
+- [ ] Monitor for any console errors
+
+### Troubleshooting Deployment Issues
+
+**Build Fails**
+- Check all environment variables are set correctly
+- Ensure MongoDB connection string is valid
+- Verify no TypeScript errors locally: `npm run build`
+
+**Email Not Sending**
+- Verify `RESEND_API_KEY` is correct
+- Check Resend dashboard for email logs
+- Ensure domain is verified (for production)
+
+**Database Connection Issues**
+- Verify MongoDB Atlas IP whitelist includes `0.0.0.0/0`
+- Check MongoDB connection string format
+- Ensure database user has correct permissions
+
+**AI Features Not Working**
+- Verify `GEMINI_API_KEY` is valid
+- Check Google AI Studio quota limits
+- Review API error logs in Vercel/Render dashboard
 
 ## 📁 Project Structure
 
