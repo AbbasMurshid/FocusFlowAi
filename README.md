@@ -11,27 +11,30 @@ A comprehensive productivity web application powered by AI (Google Gemini API wi
 ## ✨ Features
 
 ### 🎯 Core Features
-- **AI Task Planner** - Intelligent task prioritization with GPT-powered suggestions
-- **Smart Focus Timer** - Pomodoro technique with AI-driven recommendations  
-- **AI Notes & Summaries** - Automatic note summarization and key insight extraction
-- **Goal Tracking** - Visual progress tracking with milestone management
-- **Analytics Dashboard** - Comprehensive productivity insights and statistics
-- **AI Coaching** - Personalized motivation and productivity guidance
+- **Task Management** - Create, organize, and track tasks with priorities and deadlines
+- **Focus Timer** - Pomodoro-style timer to track focused work sessions
+- **Notes System** - Create and manage notes with rich text support
+- **Goal Tracking** - Set goals with milestones and track progress
+- **Habit Tracker** - Build and track daily/weekly habits with streak tracking
+- **Analytics Dashboard** - View productivity statistics and insights
+- **AI Assistant** - AI-powered task suggestions and scheduling (powered by Google Gemini)
 
 ### 🎨 UI/UX Highlights
 - **Modern Glassmorphism Design** - Beautiful blur effects and transparent cards
 - **Smooth Animations** - Powered by Framer Motion
 - **Gradient Accents** - Purple & Aqua color scheme
-- **Responsive Layout** - Works on all devices
-- **Dark Mode** - Easy on the eyes
+- **Fully Mobile Responsive** - Optimized for all devices and screen sizes
+- **Dark Theme** - Beautiful dark mode interface
 - **Premium Components** - Custom-designed UI elements
 
-### 🔐 Security
-- JWT Authentication with secure HTTP-only cookies
-- Password hashing with bcrypt
-- Protected API routes
-- MongoDB injection prevention
-- Refresh token rotation
+### 🔐 Security & Authentication
+- **JWT Authentication** - Secure token-based authentication
+- **Password Hashing** - bcrypt password encryption
+- **Email Verification** - Verify user accounts via email
+- **Password Reset** - Forgot password functionality with email tokens
+- **Multi-Factor Authentication (MFA)** - Optional 2FA with TOTP
+- **Protected API Routes** - Server-side route protection
+- **Account Management** - Delete or reset account data
 
 ## 📋 Tech Stack
 
@@ -224,6 +227,10 @@ FocusFlow-AI/
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 - `POST /api/auth/logout` - Logout user
+- `POST /api/auth/verify-email` - Verify email with code
+- `POST /api/auth/resend-code` - Resend verification code
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
 - `GET /api/auth/me` - Get current user
 
 ### Tasks
@@ -232,34 +239,52 @@ FocusFlow-AI/
 - `PATCH /api/tasks/[id]` - Update task
 - `DELETE /api/tasks/[id]` - Delete task
 
-### AI Features
-- `POST /api/ai/plan` - Generate task plan
-- `POST /api/ai/schedule` - Generate daily schedule
-- `POST /api/ai/summary` - Summarize note
-- `POST /api/ai/motivation` - Get motivation
-
 ### Notes
 - `GET /api/notes` - Get all notes
 - `POST /api/notes` - Create note
+- `PATCH /api/notes/[id]` - Update note
+- `DELETE /api/notes/[id]` - Delete note
 
 ### Goals
 - `GET /api/goals` - Get all goals
 - `POST /api/goals` - Create goal
+- `PATCH /api/goals/[id]` - Update goal
+- `DELETE /api/goals/[id]` - Delete goal
+
+### Habits
+- `GET /api/habits` - Get all habits
+- `POST /api/habits` - Create habit
+- `PATCH /api/habits/[id]` - Update habit / Mark complete
+- `DELETE /api/habits/[id]` - Archive habit
 
 ### Focus Sessions
 - `GET /api/focus` - Get focus sessions
-- `POST /api/focus` - Start focus session
+- `POST /api/focus` - Create focus session
+
+### AI Features
+- `POST /api/ai/task-assistant` - Get AI task suggestions
+- `POST /api/ai/schedule` - Generate AI schedule
+- `POST /api/ai/coach` - Get AI coaching/motivation
+
+### User Settings
+- `PATCH /api/user/settings` - Update user preferences
+- `GET /api/user/export` - Export user data
+- `POST /api/user/reset` - Reset all user data
+- `DELETE /api/user/delete` - Delete user account
+- `POST /api/user/mfa/setup` - Setup MFA
+- `POST /api/user/mfa/verify` - Verify MFA code
+- `POST /api/user/mfa/disable` - Disable MFA
+
 
 ## 🤖 AI Capabilities
 
-The app uses Google Gemini AI (gemini-1.5-flash) for:
+The app integrates Google Gemini AI (gemini-1.5-flash) for:
 
-1. **Task Planning** - Converts task lists into structured plans with priorities
-2. **Smart Scheduling** - Generates optimized daily schedules
-3. **Note Summarization** - Extracts key points and action items
-4. **Productivity Coaching** - Provides personalized motivation
-5. **Distraction Analysis** - Recommends blocking strategies
-6. **Task Breakdown** - Splits complex tasks into subtasks
+1. **Task Assistant** - AI-powered task suggestions and prioritization
+2. **Smart Scheduling** - Generate optimized daily schedules based on tasks
+3. **Productivity Coaching** - Get personalized motivation and guidance
+4. **Intelligent Insights** - Analyze your productivity patterns
+
 
 ## 🎨 Design System
 
@@ -294,6 +319,30 @@ The app uses Google Gemini AI (gemini-1.5-flash) for:
     focusDuration: number
     breakDuration: number
   }
+  mfaSecret?: string
+  mfaEnabled: boolean
+  isVerified: boolean
+  xp: number
+  level: number
+  badges: string[]
+  createdAt: Date
+  updatedAt: Date
+}
+```
+
+### Habit
+```typescript
+{
+  userId: ObjectId
+  title: string
+  description?: string
+  frequency: 'daily' | 'weekly' | 'custom'
+  customDays?: number[]
+  reminderTime?: string
+  streak: number
+  completedDates: Date[]
+  category: string
+  archived: boolean
   createdAt: Date
   updatedAt: Date
 }

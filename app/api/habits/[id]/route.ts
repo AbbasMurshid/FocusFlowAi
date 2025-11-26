@@ -1,26 +1,21 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db';
 import Habit from '@/models/Habit';
 import User from '@/models/User';
+import { withAuth, AuthenticatedRequest, errorHandler } from '@/lib/middleware';
 
-export async function PATCH(
-    req: Request,
+// PATCH update habit
+async function patchHandler(
+    req: AuthenticatedRequest,
     { params }: { params: { id: string } }
 ) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        await dbConnect();
 
         const { id } = params;
         const updates = await req.json();
 
-        await dbConnect();
-
-        const habit = await Habit.findOne({ _id: id, userId: session.user.id });
+        const habit = await Habit.findOne({ _id: id, userId: req.userId });
 
         if (!habit) {
             return NextResponse.json(
@@ -47,7 +42,7 @@ export async function PATCH(
                 habit.streak += 1;
 
                 // Award XP to user
-                await User.findByIdAndUpdate(session.user.id, {
+                await User.findByIdAndUpdate(req.userId, {
                     $inc: { xp: 10 } // 10 XP per habit completion
                 });
             }
@@ -59,30 +54,22 @@ export async function PATCH(
         await habit.save();
 
         return NextResponse.json({ habit });
-    } catch (error) {
-        console.error('Error updating habit:', error);
-        return NextResponse.json(
-            { error: 'Failed to update habit' },
-            { status: 500 }
-        );
+    } catch (error: any) {
+        return errorHandler(error);
     }
 }
 
-export async function DELETE(
-    req: Request,
+// DELETE (archive) habit
+async function deleteHandler(
+    req: AuthenticatedRequest,
     { params }: { params: { id: string } }
 ) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        await dbConnect();
 
         const { id } = params;
 
-        await dbConnect();
-
-        const habit = await Habit.findOne({ _id: id, userId: session.user.id });
+        const habit = await Habit.findOne({ _id: id, userId: req.userId });
 
         if (!habit) {
             return NextResponse.json(
@@ -96,11 +83,10 @@ export async function DELETE(
         await habit.save();
 
         return NextResponse.json({ message: 'Habit archived successfully' });
-    } catch (error) {
-        console.error('Error deleting habit:', error);
-        return NextResponse.json(
-            { error: 'Failed to delete habit' },
-            { status: 500 }
-        );
+    } catch (error: any) {
+        return errorHandler(error);
     }
 }
+
+export const PATCH = withAuth(patchHandler);
+export const DELETE = withAuth(deleteHandler);

@@ -1,39 +1,28 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db';
 import Habit from '@/models/Habit';
+import { withAuth, AuthenticatedRequest, errorHandler } from '@/lib/middleware';
 
-export async function GET(req: Request) {
+// GET all habits for user
+async function getHandler(req: AuthenticatedRequest) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
         await dbConnect();
 
         const habits = await Habit.find({
-            userId: session.user.id,
+            userId: req.userId,
             archived: false,
         }).sort({ createdAt: -1 });
 
         return NextResponse.json({ habits });
-    } catch (error) {
-        console.error('Error fetching habits:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch habits' },
-            { status: 500 }
-        );
+    } catch (error: any) {
+        return errorHandler(error);
     }
 }
 
-export async function POST(req: Request) {
+// POST create new habit
+async function postHandler(req: AuthenticatedRequest) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        await dbConnect();
 
         const { title, description, frequency, customDays, reminderTime, category } = await req.json();
 
@@ -44,10 +33,8 @@ export async function POST(req: Request) {
             );
         }
 
-        await dbConnect();
-
         const habit = await Habit.create({
-            userId: session.user.id,
+            userId: req.userId,
             title,
             description,
             frequency,
@@ -57,11 +44,10 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json({ habit }, { status: 201 });
-    } catch (error) {
-        console.error('Error creating habit:', error);
-        return NextResponse.json(
-            { error: 'Failed to create habit' },
-            { status: 500 }
-        );
+    } catch (error: any) {
+        return errorHandler(error);
     }
 }
+
+export const GET = withAuth(getHandler);
+export const POST = withAuth(postHandler);
