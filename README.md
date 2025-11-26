@@ -130,7 +130,38 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 4. Copy the API key
 5. Paste into `.env.local`
 
-### Step 5: Run Development Server
+### Step 5: Setup Email Service (Resend)
+
+The app uses **Resend** for sending verification emails and password reset links.
+
+1. **Create Resend Account**
+   - Go to [Resend.com](https://resend.com)
+   - Sign up for a free account (100 emails/day on free tier)
+
+2. **Get API Key**
+   - Go to [API Keys](https://resend.com/api-keys)
+   - Click "Create API Key"
+   - Give it a name (e.g., "FocusFlow Production")
+   - Copy the API key (starts with `re_`)
+   - Add to `.env.local` as `RESEND_API_KEY`
+
+3. **Setup Domain (Optional but Recommended)**
+   - **For Testing**: Use the default `onboarding@resend.dev` domain
+   - **For Production**:
+     - Go to Domains → Add Domain
+     - Add your domain (e.g., `yourdomain.com`)
+     - Add DNS records (SPF, DKIM)
+     - Verify domain
+     - Update email sender in `lib/mail.ts`
+
+4. **Email Features Enabled**
+   - ✅ Email verification on signup
+   - ✅ Password reset emails
+   - ✅ Resend verification code option
+
+> **Note**: Without Resend API key, email features will fail gracefully but users won't receive verification emails. The app will still function for tasks, notes, goals, and habits.
+
+### Step 6: Run Development Server
 
 ```bash
 npm run dev
