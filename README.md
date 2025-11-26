@@ -88,6 +88,9 @@ JWT_EXPIRES_IN=7d
 # Google Gemini API Key (get from https://aistudio.google.com/app/apikey)
 GEMINI_API_KEY=your_gemini_api_key_here
 
+# Resend Email API Key (get from https://resend.com/api-keys)
+RESEND_API_KEY=re_your_resend_api_key_here
+
 # App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
